@@ -1,0 +1,32 @@
+@font-face {
+  font-family: "Roboto Condensed";
+  src: url("../../assets/fonts/RobotoCondensed-Light.eot");
+  src: url("../../assets/fonts/RobotoCondensed-Light.eot?#iefix")
+      format("embedded-opentype"),
+    url("../../assets/fonts/RobotoCondensed-Light.woff2") format("woff2"),
+    url("../../assets/fonts/RobotoCondensed-Light.woff") format("woff"),
+    url("../../assets/fonts/RobotoCondensed-Light.ttf") format("truetype");
+  font-weight: 300;
+  font-style: normal;
+  font-display: swap;
+}
+
+.footer-container {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 1200px;
+  margin: auto;
+  padding: 10px 0;
+  border: black solid 1px;
+  height: 60px;
+  background-color: black;
+  font-size: 12px;
+  color: white;
+  font-family: "Roboto Condensed", sans-serif;
+}
+.footer-items {
+  display: flex;
+  margin-left: 30px;
+  gap: 10px;
+}
