@@ -10,11 +10,14 @@
     "preview": "vite preview"
   },
   "dependencies": {
+    "@babel/plugin-proposal-private-property-in-object": "^7.21.10",
     "@emotion/react": "^11.11.0",
     "@emotion/styled": "^11.11.0",
     "@mui/material": "^5.13.3",
+    "@mui/x-date-pickers": "^6.6.0",
     "add": "^2.0.6",
     "axios": "^1.4.0",
+    "dayjs": "^1.11.8",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "react-modal": "^3.16.1",

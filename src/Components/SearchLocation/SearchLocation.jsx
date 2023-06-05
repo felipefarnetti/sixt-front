@@ -1,31 +1,77 @@
 import "./searchlocation.css";
-
-import React, { useRef, useState } from "react";
+//
+import React, { useEffect, useRef, useState } from "react";
+import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import AsyncSelect from "react-select/async";
+import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
+import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
+import { DateTimePicker } from "@mui/x-date-pickers/DateTimePicker";
+import dayjs from "dayjs";
 
-const SearchLocation = () => {
-  const timeOut = useRef();
-
+const SearchLocation = ({ defaultValues, onChange }) => {
+  const [pickupDate, setPickupDate] = useState(
+    defaultValues?.pickupDate ? dayjs(defaultValues.pickupDate) : null
+  );
+  const [returnDate, setReturnDate] = useState(
+    defaultValues?.returnDate ? dayjs(defaultValues.returnDate) : null
+  );
+  const [selectedPickupStation, setSelectedPickupStation] = useState(
+    defaultValues?.pickupStation
+      ? {
+          label: defaultValues.pickupLocation,
+          value: defaultValues.pickupStation,
+        }
+      : null
+  );
+  const timeOut = useRef(); // pas vu en cours
+  const navigation = useNavigate();
   const loadOptions = (value, callback) => {
     try {
       if (timeOut.current) {
         clearTimeout(timeOut.current);
       }
       timeOut.current = setTimeout(async () => {
-        const response = await axios.get(
-          `http://localhost:3000/agences?q=${value}`
-        );
-        const agencesData = response.data;
-        const formatedOptions = agencesData.map((agence) => {
-          return { label: agence.subtitle, value: agence.id };
-        });
+        if (value.length > 3) {
+          const response = await axios.get(
+            `http://localhost:3000/agences?q=${value}`
+          );
+          const agencesData = response.data;
+          const formatedOptions = agencesData.map((agence) => {
+            return { label: agence.subtitle, value: agence.id };
+          });
 
-        callback(formatedOptions);
+          callback(formatedOptions);
+        }
       }, 1000);
     } catch (error) {
       console.error(error);
     }
+  };
+  const selectorStyle = {
+    control: (provided) => ({
+      ...provided,
+      height: "50px",
+    }),
+  };
+
+  useEffect(() => {
+    if (onChange && selectedPickupStation && pickupDate && returnDate) {
+      onChange(
+        selectedPickupStation,
+        pickupDate.toISOString(),
+        returnDate.toISOString()
+      );
+    }
+  }, [selectedPickupStation, pickupDate, returnDate]);
+
+  const handleSubmit = async (event) => {
+    event.preventDefault();
+    navigation(
+      `/Offerlist?station=${selectedPickupStation.value}&location=${
+        selectedPickupStation.label
+      }&pickupdate=${pickupDate.toISOString()}&returndate=${returnDate.toISOString()}`
+    );
   };
 
   return (
@@ -42,44 +88,59 @@ const SearchLocation = () => {
           <span className="home-bloc-haut-depart">Date de départ</span>
           <span className="home-bloc-haut-retour">Date de retour</span>
         </div>
-        <form className="home-bloc-haut-form">
+        <form className="home-bloc-haut-form" onSubmit={handleSubmit}>
           <AsyncSelect
             className="home-bloc-haut-form-place"
             cacheOptions
             loadOptions={loadOptions}
+            styles={selectorStyle}
+            value={selectedPickupStation}
+            onChange={setSelectedPickupStation}
           />
+          <div style={{ background: "white" }}>
+            <LocalizationProvider dateAdapter={AdapterDayjs}>
+              <DateTimePicker
+                onChange={(value) => {
+                  setPickupDate(value);
+                }}
+                minDate={dayjs().startOf("day")}
+                minTime={dayjs().set("hour", 8)}
+                maxTime={dayjs().set("hour", 18)}
+                ampm={false}
+                minutesStep={30}
+                skipDisabled={true}
+                className="home-bloc-haut-form-date"
+                {...(defaultValues?.pickupDate && {
+                  defaultValue: dayjs(defaultValues.pickupDate),
+                })}
+              />
+              <DateTimePicker
+                onChange={(value) => {
+                  setReturnDate(value);
+                }}
+                minDate={pickupDate ? dayjs(pickupDate) : dayjs()}
+                minTime={dayjs().set("hour", 8)}
+                maxTime={dayjs().set("hour", 18)}
+                ampm={false}
+                minutesStep={30}
+                skipDisabled={true}
+                className="home-bloc-haut-form-date"
+                {...(defaultValues?.returnDate && {
+                  defaultValue: dayjs(defaultValues.returnDate),
+                })}
+              />
+            </LocalizationProvider>
+          </div>
 
-          <input
-            className="home-bloc-haut-form-depart-date"
-            type="date"
-            label="Date de départ"
-            id="departure-date"
-            name="departure-date"
-          />
-          <input
-            className="home-bloc-haut-form-depart-hour"
-            type="time"
-            label="Heure de départ"
-            id="departure-time"
-            name="departure-time"
-          />
-          <input
-            className="home-bloc-haut-form-retour-date"
-            type="date"
-            label="Date de retour"
-            id="return-date"
-            name="return-date"
-          />
-          <input
-            className="home-bloc-haut-form-retour-hour"
-            type="time"
-            label="Heure de retour"
-            id="return-time"
-            name="return-time"
-          />
-          <button className="home-bloc-haut-form-button" type="submit">
-            VOIR LES OFFRES
-          </button>
+          {!defaultValues && (
+            <button
+              className="home-bloc-haut-form-button"
+              type="submit"
+              disabled={!pickupDate || !returnDate || !selectedPickupStation}
+            >
+              VOIR LES OFFRES
+            </button>
+          )}
         </form>
       </header>
     </>

@@ -91,17 +91,9 @@
   font-size: 16px;
 }
 
-/* .home-bloc-haut-form-depart-date {
-}
-.home-bloc-haut-form-depart-hour {
-}
-.home-bloc-haut-form-retour-date {
-}
-.home-bloc-haut-form-retour-hour {
-} */
 .home-bloc-haut-form-button {
   font-size: 14px;
-  background-color: #ff5f00;
+  background-color: black;
   border: none;
   color: white;
   cursor: pointer;
@@ -110,6 +102,7 @@
   width: 180px;
   margin-left: 90px;
 }
+
 .home-bloc-haut-form-button:hover {
   background-color: white;
   color: orange;
@@ -134,7 +127,7 @@
 .home-bloc-haut-voitures {
   color: #ff5f00;
   padding-bottom: 3px;
-  border-bottom: #ff5f00 solid 1px;
+  border-bottom: 1px solid #ff5f00;
   margin-bottom: 10px;
 }
 .home-bloc-haut-retrait {
@@ -160,39 +153,40 @@
   margin-top: 10px;
   margin-left: 20px;
   color: orange;
+  display: flex;
 }
 .home-bloc-haut-form-place {
   width: 480px;
-  height: 30px;
-  background-color: transparent;
-  border: none;
-  border-bottom: solid orange 1px;
-  /* outline: none; */
-  color: orange;
-  font-size: 16px;
+  height: 40px;
+  color: black;
+  font-size: 18px;
 }
 
-/* .home-bloc-haut-form-depart-date {
-  }
-  .home-bloc-haut-form-depart-hour {
-  }
-  .home-bloc-haut-form-retour-date {
-  }
-  .home-bloc-haut-form-retour-hour {
-  } */
+.home-bloc-haut-form-date {
+  width: 220px;
+  height: 50px;
+}
+
 .home-bloc-haut-form-button {
   font-size: 14px;
+  font-family: "Roboto Medium", sans-serif;
   background-color: #ff5f00;
   border: none;
   color: white;
   cursor: pointer;
-  font-family: "Roboto Medium", sans-serif;
-  height: 40px;
+  height: 50px;
   width: 180px;
-  margin-left: 90px;
+  margin-left: 40px;
 }
 .home-bloc-haut-form-button:hover {
   background-color: white;
-  color: orange;
-  border-color: orange;
+  color: #ff5f00;
+  border-color: #ff5f00;
+}
+
+.home-bloc-haut-form-button:disabled {
+  background-color: black;
+  cursor: not-allowed;
+  color: #ff5f00;
+  border: 2px solid #ff5f00;
 }
