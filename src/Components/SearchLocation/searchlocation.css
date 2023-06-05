@@ -1,0 +1,198 @@
+@font-face {
+  font-family: "Roboto";
+  src: url("../../assets/fonts/Roboto-Regular.eot");
+  src: url("../../assets/fonts/Roboto-Regular.eot?#iefix")
+      format("embedded-opentype"),
+    url("../../assets/fonts/Roboto-Regular.woff2") format("woff2"),
+    url("../../assets/fonts/Roboto-Regular.woff") format("woff"),
+    url("../../assets/fonts/Roboto-Regular.ttf") format("truetype");
+  font-weight: normal;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: "Roboto Condensed";
+  src: url("../../assets/fonts/RobotoCondensed-Light.eot");
+  src: url("../../assets/fonts/RobotoCondensed-Light.eot?#iefix")
+      format("embedded-opentype"),
+    url("../../assets/fonts/RobotoCondensed-Light.woff2") format("woff2"),
+    url("../../assets/fonts/RobotoCondensed-Light.woff") format("woff"),
+    url("../../assets/fonts/RobotoCondensed-Light.ttf") format("truetype");
+  font-weight: 300;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: "Roboto Medium";
+  src: url("../../assets/fonts/Roboto-Medium.eot");
+  src: url("../../assets/fonts/Roboto-Medium.eot?#iefix")
+      format("embedded-opentype"),
+    url("../../assets/fonts/Roboto-Medium.woff2") format("woff2"),
+    url("../../assets/fonts/Roboto-Medium.woff") format("woff"),
+    url("../../assets/fonts/Roboto-Medium.ttf") format("truetype");
+  font-weight: 500;
+  font-style: normal;
+  font-display: swap;
+}
+.home-bloc-haut {
+  display: flex;
+  flex-direction: column;
+  height: 140px;
+  width: 100%;
+  background-color: black;
+  color: white;
+}
+.home-bloc-haut ul {
+  display: flex;
+  gap: 20px;
+  margin-left: 20px;
+  margin-top: 20px;
+  font-size: 18px;
+  color: white;
+}
+.home-bloc-haut-voitures {
+  color: #ff5f00;
+  padding-bottom: 3px;
+  border-bottom: #ff5f00 solid 1px;
+  margin-bottom: 10px;
+}
+.home-bloc-haut-retrait {
+  margin-right: 100px;
+  font-size: 12px;
+  color: #ff5f00;
+  margin-left: 20px;
+}
+
+.home-bloc-haut-depart {
+  margin-right: 100px;
+  font-size: 12px;
+  color: #ff5f00;
+  margin-left: 300px;
+}
+.home-bloc-haut-retour {
+  margin-right: 100px;
+  font-size: 12px;
+  color: #ff5f00;
+  margin-left: 20px;
+}
+.home-bloc-haut-form {
+  margin-top: 10px;
+  margin-left: 20px;
+  color: orange;
+}
+.home-bloc-haut-form-place {
+  width: 480px;
+  height: 30px;
+  background-color: transparent;
+  border: none;
+  border-bottom: solid orange 1px;
+  /* outline: none; */
+  color: orange;
+  font-size: 16px;
+}
+
+/* .home-bloc-haut-form-depart-date {
+}
+.home-bloc-haut-form-depart-hour {
+}
+.home-bloc-haut-form-retour-date {
+}
+.home-bloc-haut-form-retour-hour {
+} */
+.home-bloc-haut-form-button {
+  font-size: 14px;
+  background-color: #ff5f00;
+  border: none;
+  color: white;
+  cursor: pointer;
+  font-family: "Roboto Medium", sans-serif;
+  height: 40px;
+  width: 180px;
+  margin-left: 90px;
+}
+.home-bloc-haut-form-button:hover {
+  background-color: white;
+  color: orange;
+  border-color: orange;
+}
+.home-bloc-haut {
+  display: flex;
+  flex-direction: column;
+  height: 140px;
+  width: 100%;
+  background-color: black;
+  color: white;
+}
+.home-bloc-haut ul {
+  display: flex;
+  gap: 20px;
+  margin-left: 20px;
+  margin-top: 20px;
+  font-size: 18px;
+  color: white;
+}
+.home-bloc-haut-voitures {
+  color: #ff5f00;
+  padding-bottom: 3px;
+  border-bottom: #ff5f00 solid 1px;
+  margin-bottom: 10px;
+}
+.home-bloc-haut-retrait {
+  margin-right: 100px;
+  font-size: 12px;
+  color: #ff5f00;
+  margin-left: 20px;
+}
+
+.home-bloc-haut-depart {
+  margin-right: 100px;
+  font-size: 12px;
+  color: #ff5f00;
+  margin-left: 300px;
+}
+.home-bloc-haut-retour {
+  margin-right: 100px;
+  font-size: 12px;
+  color: #ff5f00;
+  margin-left: 20px;
+}
+.home-bloc-haut-form {
+  margin-top: 10px;
+  margin-left: 20px;
+  color: orange;
+}
+.home-bloc-haut-form-place {
+  width: 480px;
+  height: 30px;
+  background-color: transparent;
+  border: none;
+  border-bottom: solid orange 1px;
+  /* outline: none; */
+  color: orange;
+  font-size: 16px;
+}
+
+/* .home-bloc-haut-form-depart-date {
+  }
+  .home-bloc-haut-form-depart-hour {
+  }
+  .home-bloc-haut-form-retour-date {
+  }
+  .home-bloc-haut-form-retour-hour {
+  } */
+.home-bloc-haut-form-button {
+  font-size: 14px;
+  background-color: #ff5f00;
+  border: none;
+  color: white;
+  cursor: pointer;
+  font-family: "Roboto Medium", sans-serif;
+  height: 40px;
+  width: 180px;
+  margin-left: 90px;
+}
+.home-bloc-haut-form-button:hover {
+  background-color: white;
+  color: orange;
+  border-color: orange;
+}
