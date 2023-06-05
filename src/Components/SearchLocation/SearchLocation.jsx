@@ -1,4 +1,4 @@
-import "./searchlocation.css";
+import "../../Components/SearchLocation/searchlocation.css";
 //
 import React, { useEffect, useRef, useState } from "react";
 import { useNavigate } from "react-router-dom";
@@ -77,12 +77,10 @@ const SearchLocation = ({ defaultValues, onChange }) => {
   return (
     <>
       <header className="home-bloc-haut">
-        <div>
-          <ul>
-            <li className="home-bloc-haut-voitures">VOITURES</li>
-            <li>UTILITAIRES</li>
-          </ul>
-        </div>
+        <ul>
+          <li className="home-bloc-haut-voitures">VOITURES</li>
+          <li>UTILITAIRES</li>
+        </ul>
         <div>
           <span className="home-bloc-haut-retrait">Retrait et Retour</span>
           <span className="home-bloc-haut-depart">Date de départ</span>

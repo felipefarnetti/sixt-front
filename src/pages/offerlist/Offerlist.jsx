@@ -1,3 +1,5 @@
+import "./offerlist.css";
+
 import { useEffect, useState } from "react";
 import axios from "axios";
 import { useLocation } from "react-router-dom";
@@ -34,6 +36,7 @@ const Offerlist = () => {
           returnDate,
         },
       });
+
       setResult((prevstate) => ({
         ...prevstate,
         data: response.data,
@@ -47,6 +50,7 @@ const Offerlist = () => {
       }));
     }
   };
+
   const onChange = (pickupStation, pickupDate, returnDate) => {
     window.history.replaceState(
       {},
@@ -56,8 +60,19 @@ const Offerlist = () => {
     fetchData(pickupStation.value, pickupDate, returnDate);
   };
 
+  /// Modal pour afficher les détails
+  const [selectedItem, setSelectedItem] = useState(null);
+
+  const openModal = (item) => {
+    setSelectedItem(item);
+  };
+
+  const closeModal = () => {
+    setSelectedItem(null);
+  };
+
   return (
-    <div>
+    <div className="offerlist-container">
       <SearchLocation
         defaultValues={{
           pickupLocation,
@@ -73,9 +88,72 @@ const Offerlist = () => {
         <p> aucun résultat </p>
       ) : (
         <div>
-          {result.data.map((item) => {
-            return <div key={item.id}>{item.headlines.description}</div>;
-          })}
+          <div className="offerlist-filter">
+            <span style={{ fontSize: "22px" }}>
+              {result.data.length}
+              <span style={{ fontSize: "14px" }}> OFFRES</span>
+              <span>FILTRE A RAJOUTER</span>
+            </span>
+          </div>
+          <div className="offerlist-cards">
+            {result.data.map((item) => {
+              return (
+                <div
+                  className="offerlist-card"
+                  key={item.id}
+                  onClick={() => openModal(item)}
+                >
+                  <span className="offerlist-cards-title ">
+                    {item.headlines.description}
+                  </span>
+                  <div className="offerlist-cards-title-subline">
+                    {item.headlines.shortSubline}
+                  </div>
+                  <img
+                    className="offerlist-cards-image"
+                    src={item.images.small}
+                    alt="image voiture"
+                  />
+                  <div className="ico-bullet-sm offerlist-cards-mileage">
+                    <span className="offerlist-cards-mileage">
+                      {item.headlines.mileageInfo}
+                    </span>
+                  </div>
+                  <div className="offerlist-cards-price">
+                    € {item.prices.dayPrice.amount}
+                    <span style={{ fontSize: "12px" }}> jour</span>
+                  </div>
+                  <div className="offerlist-cards-totalprice">TOTAL PRICE</div>
+                </div>
+              );
+            })}
+          </div>
+          {selectedItem && (
+            <div className="offerlist-modal">
+              <div className="offerlist-modal-content">
+                <h2>{selectedItem.headlines.description}</h2>
+                <div>{selectedItem.headlines.shortSubline}</div>
+                <img
+                  src={selectedItem.images.small}
+                  alt="image voiture"
+                  className="offerlist-modal-image"
+                />
+                <div className="ico-bullet-sm offerlist-cards-mileage">
+                  <span className="offerlist-cards-mileage">
+                    {selectedItem.headlines.mileageInfo}
+                  </span>
+                </div>
+                <div className="offerlist-cards-price">
+                  € {selectedItem.prices.dayPrice.amount}
+                  <span style={{ fontSize: "12px" }}> jour</span>
+                </div>
+                <i
+                  className="ico-close offerlist-modal-close"
+                  onClick={closeModal}
+                ></i>
+              </div>
+            </div>
+          )}
         </div>
       )}
     </div>
