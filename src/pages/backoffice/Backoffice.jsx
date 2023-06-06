@@ -18,9 +18,12 @@ const Backoffice = () => {
     event.preventDefault();
 
     try {
-      const response = await axios.post("http://localhost:3000/backoffice", {
-        password: password,
-      });
+      const response = await axios.post(
+        "https://site--six-back--4w9wbptccl4w.code.run/backoffice",
+        {
+          password: password,
+        }
+      );
 
       if (response.data.success) {
         Cookies.set("token", "connected", { expires: 1 });

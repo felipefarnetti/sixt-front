@@ -40,14 +40,17 @@ const Offerlist = () => {
         ...prevstate,
         isLoading: true,
       }));
-      const response = await axios.get(`http://localhost:3000/offres`, {
-        params: {
-          pickupStation: pickupStation,
-          returnStation: pickupStation,
-          pickupDate: pickupDate,
-          returnDate: returnDate,
-        },
-      });
+      const response = await axios.get(
+        `https://site--six-back--4w9wbptccl4w.code.run/offres`,
+        {
+          params: {
+            pickupStation: pickupStation,
+            returnStation: pickupStation,
+            pickupDate: pickupDate,
+            returnDate: returnDate,
+          },
+        }
+      );
       setDays(calculateDays(pickupDate, returnDate));
       setResult((prevstate) => ({
         ...prevstate,

@@ -33,7 +33,7 @@ const SearchLocation = ({ defaultValues, onChange }) => {
       timeOut.current = setTimeout(async () => {
         if (value.length > 3) {
           const response = await axios.get(
-            `http://localhost:3000/agences?q=${value}`
+            `https://site--six-back--4w9wbptccl4w.code.run/agences?q=${value}`
           );
           const agencesData = response.data;
           const formatedOptions = agencesData.map((agence) => {

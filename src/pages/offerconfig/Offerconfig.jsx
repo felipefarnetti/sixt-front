@@ -27,7 +27,7 @@ const Offerconfig = () => {
   // // const fetchData = async () => {
   // //   try {
   // //     const response = await axios.post(
-  // //       `http://localhost:3000/configuration-offre`,
+  // //       `https://site--six-back--4w9wbptccl4w.code.run/configuration-offre`,
   // //       { offerId: item.id }
   // //     );
   // //     setData(response.data);
