@@ -107,6 +107,7 @@ const SearchLocation = ({ defaultValues, onChange }) => {
                 ampm={false}
                 minutesStep={30}
                 skipDisabled={true}
+                format="DD/MM/YYYY HH:mm"
                 className="home-bloc-haut-form-date"
                 {...(defaultValues?.pickupDate && {
                   defaultValue: dayjs(defaultValues.pickupDate),
@@ -122,6 +123,7 @@ const SearchLocation = ({ defaultValues, onChange }) => {
                 ampm={false}
                 minutesStep={30}
                 skipDisabled={true}
+                format="DD/MM/YYYY HH:mm"
                 className="home-bloc-haut-form-date"
                 {...(defaultValues?.returnDate && {
                   defaultValue: dayjs(defaultValues.returnDate),

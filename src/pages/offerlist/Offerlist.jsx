@@ -3,6 +3,8 @@ import "./offerlist.css";
 import { useEffect, useState } from "react";
 import axios from "axios";
 import { useLocation } from "react-router-dom";
+import { Carousel } from "react-responsive-carousel";
+import "react-responsive-carousel/lib/styles/carousel.min.css";
 
 import SearchLocation from "../../Components/SearchLocation/SearchLocation";
 
@@ -60,7 +62,7 @@ const Offerlist = () => {
     fetchData(pickupStation.value, pickupDate, returnDate);
   };
 
-  /// Modal pour afficher les détails
+  /// Modal pour afficher recaptulatif
   const [selectedItem, setSelectedItem] = useState(null);
 
   const openModal = (item) => {
@@ -69,6 +71,14 @@ const Offerlist = () => {
 
   const closeModal = () => {
     setSelectedItem(null);
+  };
+
+  const calculateDays = (pickupDate, returnDate) => {
+    const date1 = new Date(pickupDate);
+    const date2 = new Date(returnDate);
+    const diffTime = Math.abs(date2 - date1);
+    const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
+    return diffDays;
   };
 
   return (
@@ -97,6 +107,7 @@ const Offerlist = () => {
           </div>
           <div className="offerlist-cards">
             {result.data.map((item) => {
+              const days = calculateDays(pickupDate, returnDate);
               return (
                 <div
                   className="offerlist-card"
@@ -109,6 +120,7 @@ const Offerlist = () => {
                   <div className="offerlist-cards-title-subline">
                     {item.headlines.shortSubline}
                   </div>
+
                   <img
                     className="offerlist-cards-image"
                     src={item.images.small}
@@ -123,7 +135,9 @@ const Offerlist = () => {
                     € {item.prices.dayPrice.amount}
                     <span style={{ fontSize: "12px" }}> jour</span>
                   </div>
-                  <div className="offerlist-cards-totalprice">TOTAL PRICE</div>
+                  <div className="offerlist-cards-totalprice">
+                    € {(item.prices.dayPrice.amount * days).toFixed(2)}
+                  </div>
                 </div>
               );
             })}
@@ -131,21 +145,35 @@ const Offerlist = () => {
           {selectedItem && (
             <div className="offerlist-modal">
               <div className="offerlist-modal-content">
-                <h2>{selectedItem.headlines.description}</h2>
-                <div>{selectedItem.headlines.shortSubline}</div>
-                <img
-                  src={selectedItem.images.small}
-                  alt="image voiture"
-                  className="offerlist-modal-image"
-                />
-                <div className="ico-bullet-sm offerlist-cards-mileage">
-                  <span className="offerlist-cards-mileage">
-                    {selectedItem.headlines.mileageInfo}
-                  </span>
+                <div className="offerlist-modal-left">
+                  <div className="offerlist-modal-left-title">
+                    <span>{selectedItem.headlines.description}</span>
+                    <span> {selectedItem.headlines.shortSubline}</span>
+                  </div>
+                  <div>
+                    <img
+                      src={selectedItem.images.medium}
+                      alt="image voiture"
+                      className="offerlist-modal-image"
+                    />
+                  </div>
                 </div>
-                <div className="offerlist-cards-price">
-                  € {selectedItem.prices.dayPrice.amount}
-                  <span style={{ fontSize: "12px" }}> jour</span>
+                <div className="offerlist-modal-right">
+                  <div className="offerlist-modal-totalprice">
+                    <span>TOTAL </span>
+                    <span>
+                      €
+                      {(
+                        selectedItem.prices.dayPrice.amount *
+                        calculateDays(pickupDate, returnDate)
+                      ).toFixed(2)}
+                    </span>
+                  </div>
+                  <div>
+                    <button className="offerlist-modal-button">
+                      SÉLECTIONNER
+                    </button>
+                  </div>
                 </div>
                 <i
                   className="ico-close offerlist-modal-close"
