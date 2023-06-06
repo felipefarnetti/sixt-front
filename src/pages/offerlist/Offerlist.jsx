@@ -1,14 +1,11 @@
 import "./offerlist.css";
-
+//packages
+import Select from "react-select";
 import { useEffect, useState } from "react";
 import axios from "axios";
 import { useLocation } from "react-router-dom";
-import { Carousel } from "react-responsive-carousel";
-import Select from "react-select";
-
-import "react-responsive-carousel/lib/styles/carousel.min.css";
+//components
 import SearchLocation from "../../Components/SearchLocation/SearchLocation";
-
 import CardOffer from "../../Components/cardOffer/CardOffer";
 
 const carOptions = [

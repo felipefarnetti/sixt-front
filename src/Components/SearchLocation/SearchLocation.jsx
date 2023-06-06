@@ -1,5 +1,3 @@
-import "../../Components/SearchLocation/searchlocation.css";
-//
 import React, { useEffect, useRef, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
@@ -8,6 +6,7 @@ import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import { DateTimePicker } from "@mui/x-date-pickers/DateTimePicker";
 import dayjs from "dayjs";
+import "../../Components/SearchLocation/searchlocation.css";
 
 const SearchLocation = ({ defaultValues, onChange }) => {
   const [pickupDate, setPickupDate] = useState(

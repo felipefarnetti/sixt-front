@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import { Carousel } from "react-responsive-carousel";
 import "react-responsive-carousel/lib/styles/carousel.min.css";
@@ -6,6 +7,7 @@ import "./modalOffer.css";
 
 const ModalOffer = ({ item, days, close }) => {
   const [data, setData] = useState();
+  const navigation = useNavigate();
 
   useEffect(() => {
     fetchData();
@@ -22,7 +24,11 @@ const ModalOffer = ({ item, days, close }) => {
       console.error(error);
     }
   };
-  console.log(data);
+  const handleSubmit = async (event) => {
+    event.preventDefault();
+    navigation(`/OfferConfig?itemId=${item.Id}`);
+  };
+
   return (
     <div className="offerlist-modal">
       <div className="offerlist-modal-content">
@@ -93,7 +99,9 @@ const ModalOffer = ({ item, days, close }) => {
           </div>
           <span className="offerlist-modal-taxes">Taxes incluses</span>
           <div>
-            <button className="offerlist-modal-button">SÉLECTIONNER</button>
+            <button className="offerlist-modal-button" onClick={handleSubmit}>
+              SÉLECTIONNER
+            </button>
           </div>
         </div>
         <i className="ico-close offerlist-modal-close" onClick={close}></i>
