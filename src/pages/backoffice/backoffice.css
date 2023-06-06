@@ -25,7 +25,9 @@
 
 .backoffice-container {
   display: flex;
-  justify-content: center;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: center;
   width: 1200px;
   margin: auto;
   padding: 10px 0;
@@ -34,8 +36,21 @@
 }
 
 .backoffice-container h1 {
+  margin-top: 20px;
   font-size: 28px;
   font-family: "Roboto Condensed";
   font-weight: bold;
   text-decoration: underline;
+}
+
+.backoffice-input {
+  height: 30px;
+  width: 200px;
+  margin-top: 50px;
+  font-size: 16px;
+}
+.backoffice-button {
+  margin-left: 10px;
+  height: 30px;
+  width: 100px;
 }

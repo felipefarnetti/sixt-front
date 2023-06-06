@@ -34,30 +34,6 @@
   font-style: normal;
   font-display: swap;
 }
-.offerlist-container {
-  display: flex;
-  flex-direction: column;
-  width: 1200px;
-  margin: auto;
-  font-family: "Roboto", sans-serif;
-  border: black solid 1px;
-  background-color: #ff5e00;
-}
-.offerlist-filter {
-  display: flex;
-  height: 70px;
-  border-bottom: 2px solid #cf5610;
-  font-family: "Roboto Medium", sans-serif;
-  align-items: center;
-  margin-left: 30px;
-  margin-bottom: 30px;
-}
-
-.offerlist-filter-select {
-  width: 400px;
-  margin-left: 30px;
-}
-
 .offerlist-cards {
   display: grid;
   grid-template-columns: repeat(4, 1fr);

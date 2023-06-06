@@ -4,13 +4,25 @@ import { useEffect, useState } from "react";
 import axios from "axios";
 import { useLocation } from "react-router-dom";
 import { Carousel } from "react-responsive-carousel";
-import "react-responsive-carousel/lib/styles/carousel.min.css";
+import Select from "react-select";
 
+import "react-responsive-carousel/lib/styles/carousel.min.css";
 import SearchLocation from "../../Components/SearchLocation/SearchLocation";
+
+import CardOffer from "../../Components/cardOffer/CardOffer";
+
+const carOptions = [
+  { label: "CONVERTIBLE", value: "Cabriolet" },
+  { label: "BERLINE", value: "Berline" },
+  { label: "SUV", value: "SUV" },
+  { label: "COUPÉ", value: "Coupé" },
+  { label: "PICKUP", value: "Pickup" },
+];
 
 const Offerlist = () => {
   const [result, setResult] = useState({
     data: [],
+    initialData: [],
     isLoading: true,
   });
   const location = useLocation();
@@ -19,6 +31,7 @@ const Offerlist = () => {
   const pickupLocation = queryParameters.get("location");
   const pickupDate = queryParameters.get("pickupdate");
   const returnDate = queryParameters.get("returndate");
+  const [days, setDays] = useState();
 
   useEffect(() => {
     fetchData(pickupStation, pickupDate, returnDate);
@@ -32,16 +45,17 @@ const Offerlist = () => {
       }));
       const response = await axios.get(`http://localhost:3000/offres`, {
         params: {
-          pickupStation,
+          pickupStation: pickupStation,
           returnStation: pickupStation,
-          pickupDate,
-          returnDate,
+          pickupDate: pickupDate,
+          returnDate: returnDate,
         },
       });
-
+      setDays(calculateDays(pickupDate, returnDate));
       setResult((prevstate) => ({
         ...prevstate,
         data: response.data,
+        initialData: response.data,
         isLoading: false,
       }));
     } catch (error) {
@@ -62,15 +76,32 @@ const Offerlist = () => {
     fetchData(pickupStation.value, pickupDate, returnDate);
   };
 
-  /// Modal pour afficher recaptulatif
-  const [selectedItem, setSelectedItem] = useState(null);
+  const handleFilters = (filters) => {
+    const filterValues = filters.map((filter) => filter.value);
+    console.log(filterValues);
+    setResult((prevstate) => ({
+      ...prevstate,
+      isLoading: true,
+    }));
 
-  const openModal = (item) => {
-    setSelectedItem(item);
-  };
-
-  const closeModal = () => {
-    setSelectedItem(null);
+    setTimeout(() => {
+      if (filterValues.length === 0) {
+        setResult((prevstate) => ({
+          ...prevstate,
+          data: prevstate.initialData,
+          isLoading: false,
+        }));
+        return;
+      }
+      setResult((prevstate) => ({
+        ...prevstate,
+        data: prevstate.initialData.filter((item) => {
+          console.log(item.carGroupInfo.bodyStyle);
+          return filterValues.indexOf(item.carGroupInfo.bodyStyle) !== -1;
+        }),
+        isLoading: false,
+      }));
+    }, 500);
   };
 
   const calculateDays = (pickupDate, returnDate) => {
@@ -83,105 +114,42 @@ const Offerlist = () => {
 
   return (
     <div className="offerlist-container">
-      <SearchLocation
-        defaultValues={{
-          pickupLocation,
-          pickupStation,
-          pickupDate,
-          returnDate,
-        }}
-        onChange={onChange}
-      />
+      <>
+        <SearchLocation
+          defaultValues={{
+            pickupLocation,
+            pickupStation,
+            pickupDate,
+            returnDate,
+          }}
+          onChange={onChange}
+        />
+        <div className="offerlist-filter">
+          <span style={{ fontSize: "22px" }}>
+            {result.data.length}
+            <span style={{ fontSize: "14px" }}> OFFRES</span>
+          </span>
+          <Select
+            isMulti
+            name="options"
+            options={carOptions}
+            onChange={handleFilters}
+            className="offerlist-filter-select"
+            classNamePrefix="select"
+          />
+        </div>
+      </>
       {result.isLoading ? (
         <p> Chargement en cours </p>
       ) : result.data.length === 0 ? (
         <p> aucun résultat </p>
       ) : (
         <div>
-          <div className="offerlist-filter">
-            <span style={{ fontSize: "22px" }}>
-              {result.data.length}
-              <span style={{ fontSize: "14px" }}> OFFRES</span>
-              <span>FILTRE A RAJOUTER</span>
-            </span>
-          </div>
           <div className="offerlist-cards">
             {result.data.map((item) => {
-              const days = calculateDays(pickupDate, returnDate);
-              return (
-                <div
-                  className="offerlist-card"
-                  key={item.id}
-                  onClick={() => openModal(item)}
-                >
-                  <span className="offerlist-cards-title ">
-                    {item.headlines.description}
-                  </span>
-                  <div className="offerlist-cards-title-subline">
-                    {item.headlines.shortSubline}
-                  </div>
-
-                  <img
-                    className="offerlist-cards-image"
-                    src={item.images.small}
-                    alt="image voiture"
-                  />
-                  <div className="ico-bullet-sm offerlist-cards-mileage">
-                    <span className="offerlist-cards-mileage">
-                      {item.headlines.mileageInfo}
-                    </span>
-                  </div>
-                  <div className="offerlist-cards-price">
-                    € {item.prices.dayPrice.amount}
-                    <span style={{ fontSize: "12px" }}> jour</span>
-                  </div>
-                  <div className="offerlist-cards-totalprice">
-                    € {(item.prices.dayPrice.amount * days).toFixed(2)}
-                  </div>
-                </div>
-              );
+              return <CardOffer key={item.id} item={item} days={days} />;
             })}
           </div>
-          {selectedItem && (
-            <div className="offerlist-modal">
-              <div className="offerlist-modal-content">
-                <div className="offerlist-modal-left">
-                  <div className="offerlist-modal-left-title">
-                    <span>{selectedItem.headlines.description}</span>
-                    <span> {selectedItem.headlines.shortSubline}</span>
-                  </div>
-                  <div>
-                    <img
-                      src={selectedItem.images.medium}
-                      alt="image voiture"
-                      className="offerlist-modal-image"
-                    />
-                  </div>
-                </div>
-                <div className="offerlist-modal-right">
-                  <div className="offerlist-modal-totalprice">
-                    <span>TOTAL </span>
-                    <span>
-                      €
-                      {(
-                        selectedItem.prices.dayPrice.amount *
-                        calculateDays(pickupDate, returnDate)
-                      ).toFixed(2)}
-                    </span>
-                  </div>
-                  <div>
-                    <button className="offerlist-modal-button">
-                      SÉLECTIONNER
-                    </button>
-                  </div>
-                </div>
-                <i
-                  className="ico-close offerlist-modal-close"
-                  onClick={closeModal}
-                ></i>
-              </div>
-            </div>
-          )}
         </div>
       )}
     </div>
