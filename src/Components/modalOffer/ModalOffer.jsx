@@ -1,3 +1,4 @@
+//Packages
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
@@ -26,7 +27,7 @@ const ModalOffer = ({ item, days, close }) => {
   };
   const handleSubmit = async (event) => {
     event.preventDefault();
-    navigation(`/OfferConfig?itemId=${item.Id}`);
+    navigation(`/OfferConfig`);
   };
 
   return (
@@ -40,12 +41,12 @@ const ModalOffer = ({ item, days, close }) => {
               infiniteLoop={true}
               showThumbs={false}
             >
-              {data?.splashImages.map((image, index) => (
+              {data?.splashImages.map((carImage, index) => (
                 <div key={index}>
                   <img
                     className="offerlist-modal-image"
-                    src={image}
-                    alt={`image voiture ${index + 1}`}
+                    src={carImage}
+                    alt={`carImage voiture ${index + 1}`}
                   />
                 </div>
               ))}

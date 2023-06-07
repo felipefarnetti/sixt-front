@@ -23,7 +23,7 @@ const SearchLocation = ({ defaultValues, onChange }) => {
         }
       : null
   );
-  const timeOut = useRef(); // pas vu en cours
+  const timeOut = useRef();
   const navigation = useNavigate();
   const loadOptions = (value, callback) => {
     try {

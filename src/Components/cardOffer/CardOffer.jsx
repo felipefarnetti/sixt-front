@@ -1,6 +1,8 @@
-import "./cardOffer.css";
+//Packages
 import { useState } from "react";
+//Components
 import ModalOffer from "../modalOffer/ModalOffer";
+import "./cardOffer.css";
 
 const CardOffer = ({ item, days }) => {
   /// Modal pour afficher recaptulatif

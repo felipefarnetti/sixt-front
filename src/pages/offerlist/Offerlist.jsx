@@ -1,4 +1,3 @@
-import "./offerlist.css";
 //packages
 import Select from "react-select";
 import { useEffect, useState } from "react";
@@ -7,6 +6,7 @@ import { useLocation } from "react-router-dom";
 //components
 import SearchLocation from "../../Components/SearchLocation/SearchLocation";
 import CardOffer from "../../Components/cardOffer/CardOffer";
+import "./offerlist.css";
 
 const carOptions = [
   { label: "CONVERTIBLE", value: "Cabriolet" },
