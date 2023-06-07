@@ -34,20 +34,42 @@
   font-style: normal;
   font-display: swap;
 }
-.personaldetails-container {
+.options-card {
+  display: flex;
+  height: 150px;
+  width: 45%;
+  background-color: black;
+  color: white;
+}
+.options-card.is-active {
+  background-color: white;
+  color: black;
+}
+.options-card-self {
+  display: flex;
+  padding: 10px;
+  margin-right: 10px;
+  text-align: left;
+}
+.options-card-self h3 {
+  font-size: 18px;
+  font-family: "Roboto Medium", sans-serif;
+  font-weight: bold;
+}
+.options-card-self i {
+  font-size: 30px;
+  color: #ff5e00;
+  margin-right: 10px;
+  margin-left: 10px;
+}
+.options-card-price {
   display: flex;
   flex-direction: column;
-  width: 900px;
-  height: 800px;
-  margin: auto;
-  border: black solid 1px;
-  background-color: white;
-  font-family: "Roboto", sans-serif;
+  justify-content: space-between;
 }
-.personaldetails-title {
-  font-size: 20px;
-  font-family: "Roboto Medium";
-  margin-top: 20px;
-  padding: 10px 0;
-  border-bottom: 2px solid black;
+.options-card-amount {
+  font-size: 16px;
+}
+.options-card-price-title {
+  font-size: 12px;
 }

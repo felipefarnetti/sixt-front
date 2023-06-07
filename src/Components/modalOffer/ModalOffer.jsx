@@ -27,7 +27,13 @@ const ModalOffer = ({ item, days, close }) => {
   };
   const handleSubmit = async (event) => {
     event.preventDefault();
-    navigation(`/OfferConfig`);
+    navigation(`/OfferConfig`, {
+      state: {
+        config: data,
+        offer: item,
+        days: days,
+      },
+    });
   };
 
   return (

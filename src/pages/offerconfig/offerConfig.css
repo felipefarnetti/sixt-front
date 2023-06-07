@@ -42,6 +42,7 @@
   border: black solid 1px;
   background-color: #ff5e00;
   font-family: "Roboto", sans-serif;
+  position: relative;
 }
 .offerconfig-hero {
   width: 1200px;
@@ -80,7 +81,7 @@
 }
 .offerconfig-center-left {
   width: 66.66%;
-  border: 2px solid black;
+  /* border: 2px solid black; */
   margin-top: 20px;
   margin-left: 30px;
   padding-top: 10px;
@@ -114,30 +115,15 @@
   flex-wrap: wrap;
   gap: 20px;
 }
-.offerconfig-center-left-options-card {
+.offerconfig-center-left-options-plus {
   display: flex;
-  height: 150px;
-  width: 40%;
-  background-color: white;
-}
-
-.offerconfig-center-left-options-card-self {
-  display: flex;
-  margin-top: 20px;
-  text-align: left;
-}
-
-.offerconfig-center-left-options h3 {
-  font-size: 14px;
-  font-family: "Roboto Medium";
-  font-weight: bold;
-  margin-top: 10px;
-}
-i {
-  font-size: 30px;
-  color: #ff5e00;
-  margin-right: 10px;
-  margin-left: 10px;
+  flex-direction: column;
+  align-items: flex-end;
+  position: relative;
+  top: -40px;
+  right: 80px;
+  font-size: 18px;
+  color: white;
 }
 
 .offerconfig-center-right {
@@ -164,6 +150,7 @@ i {
   height: 40px;
   width: 90%;
   margin-top: 20px;
+  margin-left: 20px;
   font-size: 15px;
   font-family: "Roboto Medium", sans-serif;
   color: #ff5e00;
