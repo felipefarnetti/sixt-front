@@ -48,8 +48,8 @@ const ModalOptions = ({
               <h2>PROTECTION ET OPTIONS</h2>
             </div>
             <ul>
-              {selectedOptions.map((option) => (
-                <li className="modal-options-line" key={option.id}>
+              {selectedOptions.map((option, index) => (
+                <li className="modal-options-line" key={index}>
                   <span>{option.title}</span>
                   <span>
                     € {option.price.amount === 0 ? "0,00" : option.price.amount}
@@ -61,8 +61,8 @@ const ModalOptions = ({
               <h2>FRAIS</h2>
             </div>
             <ul>
-              {result.config.extraFees.map((option) => (
-                <li className="modal-options-line" key={option.id}>
+              {result.config.extraFees.map((option, index) => (
+                <li className="modal-options-line" key={index}>
                   <span>{option.title}</span>
                   <span>
                     € {option.price.amount === 0 ? "0,00" : option.price.amount}

@@ -51,3 +51,18 @@
   padding: 10px 0;
   border-bottom: 2px solid black;
 }
+.personaldetails-titles {
+  display: flex;
+  flex-direction: row;
+}
+.personaldetails-user {
+  display: flex;
+}
+.personaldetails-user-left {
+  display: flex;
+  flex-direction: column;
+}
+.personaldetails-user-right {
+  display: flex;
+  flex-direction: column;
+}

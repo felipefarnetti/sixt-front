@@ -77,7 +77,12 @@ const Offerconfig = () => {
 
   const handleSubmit = async (event) => {
     event.preventDefault();
-    navigation(`/personaldetails`, { selectedOptions, result });
+    navigation(`/personaldetails`, {
+      state: {
+        selectedOptions,
+        result,
+      },
+    });
   };
 
   if (!result.config || !result.offer || !result.days) {
@@ -183,9 +188,7 @@ const Offerconfig = () => {
           <div>
             <div className="offerconfig-center-right-price">
               <span className="offerconfig-center-right-text">TOTAL</span>
-              <span>
-                {(result.offer.prices.dayPrice.amount * result.days).toFixed(2)}
-              </span>
+              <span>{calculateTotalPrice()}</span>
             </div>
             <div className="offerconfig-center-right-price">
               <div>
