@@ -7,7 +7,7 @@ import { useNavigate } from "react-router-dom";
 // import SearchLocation from "../../Components/SearchLocation/SearchLocation";
 import "./offerConfig.css";
 import CardOption from "../../Components/cardOption/CardOption";
-import ModalOptions from "../../Components/modalOptions/modalOptions";
+import ModalOptions from "../../Components/modalOptions/ModalOptions";
 
 const Offerconfig = () => {
   const [result, setResult] = useState({

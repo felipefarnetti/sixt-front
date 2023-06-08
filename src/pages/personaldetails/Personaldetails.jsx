@@ -123,10 +123,17 @@ const Personaldetails = () => {
               />
               <input
                 className="personaldetails-inputs"
-                {...register("email", { required: true })}
+                {...register("email", {
+                  required: true,
+                  pattern: {
+                    value: /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i,
+                    message: "Adresse email invalide",
+                  },
+                })}
                 placeholder="Adresse email *"
                 type="email"
               />
+
               <input
                 className="personaldetails-inputs"
                 {...register("street", { required: true })}

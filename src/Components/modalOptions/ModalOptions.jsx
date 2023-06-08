@@ -15,9 +15,6 @@ const ModalOptions = ({
   const handleCloseModal = () => {
     setIsOpen(false);
   };
-  //   console.log(days);
-  //   console.log(result);
-  //   console.log(selectedOptions);
 
   return (
     <div>
