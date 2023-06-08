@@ -1,6 +1,6 @@
 //Packages
 import { useForm } from "react-hook-form";
-import { useLocation } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import { useState } from "react";
 import { getNames } from "country-list";
 import axios from "axios";
@@ -11,13 +11,12 @@ import PhoneInput from "react-phone-number-input";
 import "./personalDetails.css";
 
 const Personaldetails = () => {
+  const navigate = useNavigate();
   const location = useLocation();
   const config = location.state.result.config;
   const offer = location.state.result.offer;
   const days = location.state.result.days;
   const selectedOptions = location.state.selectedOptions;
-  // console.log(config);
-  // console.log(selectedOptions);
 
   const [phoneNumber, setPhoneNumber] = useState();
   const [modalOpen, setModalOpen] = useState(false);
@@ -49,8 +48,16 @@ const Personaldetails = () => {
   } = useForm({ mode: "onChange" });
 
   const onSubmit = async (data) => {
+    const birthDate = data.birthDate.split("-").reverse().join("-");
+    const currentDate = new Date();
+    const year = currentDate.getFullYear();
+    const month = String(currentDate.getMonth() + 1).padStart(2, "0");
+    const day = String(currentDate.getDate()).padStart(2, "0");
+    const reservationDate = `${day}-${month}-${year}`;
+
     const formData = {
       ...data,
+      price: offer.prices.dayPrice.amount,
       totalPrice: calculateTotalPrice(),
       selectedOptions,
       days,
@@ -59,6 +66,8 @@ const Personaldetails = () => {
       carName: offer.headlines.longSubline,
       includedCharges: config.includedCharges,
       extraFees: config.extraFees,
+      reservationDate,
+      birthDate,
     };
     console.log(data);
     try {
@@ -68,7 +77,8 @@ const Personaldetails = () => {
       );
       setUniqueId(response.data.uniqueId);
       setModalOpen(true);
-      console.log(response.data);
+      // console.log(response.data);
+      navigate("/"); //ne pas partir direct - partir quand on ferme le modal
     } catch (error) {
       console.error(error);
     }
@@ -179,7 +189,6 @@ const Personaldetails = () => {
                 className="personaldetails-inputs personaldetails-phone"
                 style={{
                   outline: "none",
-
                   textDecoration: "none",
                 }}
                 {...register("phoneNumber", { required: true })}

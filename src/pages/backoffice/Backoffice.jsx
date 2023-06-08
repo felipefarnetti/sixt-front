@@ -1,9 +1,10 @@
 //Packages
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import axios from "axios";
 import Cookies from "js-cookie";
 import { useNavigate } from "react-router-dom";
 
+import BackOfficeModal from "../../Components/backOfficeModal/BackOfficeModal";
 import "./backoffice.css";
 
 const Backoffice = () => {
@@ -13,6 +14,26 @@ const Backoffice = () => {
   const [isConnected, setIsConnected] = useState(
     Cookies.get("token") === "connected"
   );
+  const [reservations, setReservations] = useState([]);
+  const [selectedReservation, setSelectedReservation] = useState(null);
+
+  useEffect(() => {
+    if (isConnected) {
+      fetchReservations();
+    }
+  }, [isConnected]);
+
+  const fetchReservations = async () => {
+    try {
+      const response = await axios.get(
+        "https://site--six-back--4w9wbptccl4w.code.run/useroffers"
+      );
+      setReservations(response.data.userOffers);
+    } catch (error) {
+      console.error(error);
+      setErrorMessage("Une erreur s'est produite");
+    }
+  };
 
   const handleSubmit = async (event) => {
     event.preventDefault();
@@ -24,7 +45,6 @@ const Backoffice = () => {
           password: password,
         }
       );
-
       if (response.data.success) {
         Cookies.set("token", "connected", { expires: 1 });
         setIsConnected(true);
@@ -41,6 +61,28 @@ const Backoffice = () => {
     Cookies.remove("token");
     setIsConnected(false);
     navigation("/backoffice");
+  };
+
+  const handleDeleteReservation = async (uniqueId) => {
+    try {
+      await axios.delete(
+        `https://site--six-back--4w9wbptccl4w.code.run/useroffers/${uniqueId}`
+      );
+      fetchReservations();
+    } catch (error) {
+      console.error(error);
+      setErrorMessage(
+        "Une erreur s'est produite lors de la suppression de la réservation"
+      );
+    }
+  };
+
+  const handleOpenModal = (reservation) => {
+    setSelectedReservation(reservation);
+  };
+
+  const closeModal = () => {
+    setSelectedReservation(null);
   };
 
   return (
@@ -74,12 +116,52 @@ const Backoffice = () => {
           <div>
             <h1>🔑 Backoffice Connecté 🔑</h1>
           </div>
-          <p>Item 1</p>
-          <p>Item 1</p>
-          <p>Item 1</p>
-          <p>Item 1</p>
-          <p>Item 1</p>
-          <p>Item 1</p>
+          {reservations.length > 0 ? (
+            <div className="reservations-container">
+              <div className="reservations-header">
+                <span>Date de réservation</span>
+                <span>Référence client</span>
+                <span>Nom/Prénom</span>
+                <span>Durée</span>
+                <span>Prix total</span>
+                <span>Actions</span>
+              </div>
+              <div className="reservations-body">
+                {reservations.map((reservation) => (
+                  <div
+                    key={reservation.uniqueId}
+                    className="reservation-row"
+                    onClick={() => handleOpenModal(reservation)}
+                  >
+                    <span>{reservation.reservationDate}</span>
+                    <span>{reservation.uniqueId}</span>
+                    <span>{`${reservation.firstName} ${reservation.lastName}`}</span>
+                    <span>{reservation.days}</span>
+                    <span>{reservation.totalPrice}</span>
+                    <span>
+                      <button
+                        className="delete-button"
+                        onClick={() =>
+                          handleDeleteReservation(reservation.uniqueId)
+                        }
+                      >
+                        Supprimer
+                      </button>
+                    </span>
+                  </div>
+                ))}
+              </div>
+              {selectedReservation && (
+                <BackOfficeModal
+                  reservation={selectedReservation}
+                  onClose={closeModal}
+                />
+              )}
+            </div>
+          ) : (
+            <p>Aucune réservation trouvée.</p>
+          )}
+
           <button className="backoffice-button" onClick={handleDisconnect}>
             Se Déconnecter
           </button>
