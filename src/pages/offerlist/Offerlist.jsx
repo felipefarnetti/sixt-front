@@ -13,7 +13,7 @@ const carOptions = [
   { label: "BERLINE", value: "Berline" },
   { label: "SUV", value: "SUV" },
   { label: "COUPÉ", value: "Coupé" },
-  { label: "PICKUP", value: "Pickup" },
+  { label: "PICKUP", value: "Pick-up" },
 ];
 
 const Offerlist = () => {

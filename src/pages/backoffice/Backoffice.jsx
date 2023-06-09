@@ -3,7 +3,7 @@ import React, { useState, useEffect } from "react";
 import axios from "axios";
 import Cookies from "js-cookie";
 import { useNavigate } from "react-router-dom";
-
+//Components
 import BackOfficeModal from "../../Components/backOfficeModal/BackOfficeModal";
 import "./backoffice.css";
 
@@ -18,13 +18,15 @@ const Backoffice = () => {
   const [selectedReservation, setSelectedReservation] = useState(null);
 
   useEffect(() => {
+    // Effect to fetch reservations when the connected state changes
     if (isConnected) {
-      fetchReservations();
+      fetchReservations(); // Fetch reservations when connected
     }
   }, [isConnected]);
 
   const fetchReservations = async () => {
     try {
+      // Fetch reservations from backend route /useroffers
       const response = await axios.get(
         "https://site--six-back--4w9wbptccl4w.code.run/useroffers"
       );
@@ -39,6 +41,7 @@ const Backoffice = () => {
     event.preventDefault();
 
     try {
+      // Post request to verify entered password
       const response = await axios.post(
         "https://site--six-back--4w9wbptccl4w.code.run/backoffice",
         {
@@ -46,6 +49,8 @@ const Backoffice = () => {
         }
       );
       if (response.data.success) {
+        // If the response indicates success
+        // set the token in cookies and set connected state to true
         Cookies.set("token", "connected", { expires: 1 });
         setIsConnected(true);
       } else {
@@ -58,17 +63,18 @@ const Backoffice = () => {
   };
 
   const handleDisconnect = () => {
-    Cookies.remove("token");
-    setIsConnected(false);
-    navigation("/backoffice");
+    Cookies.remove("token"); // Remove token from cookies
+    setIsConnected(false); // Set connected state to false
+    navigation("/backoffice"); // Navigate to "/backoffice" page
   };
 
   const handleDeleteReservation = async (uniqueId) => {
     try {
+      // Send a request to delete a reservation with a specific uniqueId
       await axios.delete(
         `https://site--six-back--4w9wbptccl4w.code.run/useroffers/${uniqueId}`
       );
-      fetchReservations();
+      fetchReservations(); // Fetch updated reservations after deletion
     } catch (error) {
       console.error(error);
       setErrorMessage(
@@ -78,11 +84,11 @@ const Backoffice = () => {
   };
 
   const handleOpenModal = (reservation) => {
-    setSelectedReservation(reservation);
+    setSelectedReservation(reservation); // Set selected reservation in state
   };
 
   const closeModal = () => {
-    setSelectedReservation(null);
+    setSelectedReservation(null); // Clear selected reservation from state
   };
 
   return (
@@ -92,23 +98,20 @@ const Backoffice = () => {
           <div>
             <h1>🔑 Connexion au Backoffice 🔑</h1>
           </div>
-          <div className="input-button-container">
-            <form onSubmit={handleSubmit}>
-              <input
-                className="backoffice-input"
-                type="password"
-                name="password"
-                id="password"
-                placeholder="Mot de passe"
-                value={password}
-                onChange={(event) => setPassword(event.target.value)}
-              />
-            </form>
+          <form className="input-button-container" onSubmit={handleSubmit}>
+            <input
+              className="backoffice-input"
+              type="password"
+              name="password"
+              id="password"
+              placeholder="Mot de passe"
+              value={password}
+              onChange={(event) => setPassword(event.target.value)}
+            />
             <button className="backoffice-button" type="submit">
               Se Connecter
             </button>
-          </div>
-
+          </form>
           {errorMessage && <p className="backoffice-error">{errorMessage}</p>}
         </div>
       ) : (

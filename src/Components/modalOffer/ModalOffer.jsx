@@ -5,13 +5,14 @@ import axios from "axios";
 import { Carousel } from "react-responsive-carousel";
 import "react-responsive-carousel/lib/styles/carousel.min.css";
 import "./modalOffer.css";
+import randomCar from "../../assets/img/randomphoto.png";
 
 const ModalOffer = ({ item, days, close }) => {
   const [data, setData] = useState();
   const navigation = useNavigate();
 
   useEffect(() => {
-    fetchData();
+    fetchData(); //warning  React Hook useEffect has a missing dependency: 'fetchData'. Either include it or remove the dependency array
   }, []);
 
   const fetchData = async () => {
@@ -41,22 +42,31 @@ const ModalOffer = ({ item, days, close }) => {
       <div className="offerlist-modal-content">
         <div className="offerlist-modal-left">
           <div className="offerlist-modal-image">
-            <Carousel
-              autoPlay={true}
-              interval={3000}
-              infiniteLoop={true}
-              showThumbs={false}
-            >
-              {data?.splashImages.map((carImage, index) => (
-                <div key={index}>
-                  <img
-                    className="offerlist-modal-image"
-                    src={carImage}
-                    alt={`carImage voiture ${index + 1}`}
-                  />
-                </div>
-              ))}
-            </Carousel>
+            {data?.splashImages && data.splashImages.length > 0 ? (
+              <Carousel
+                autoPlay={true}
+                interval={3000}
+                infiniteLoop={true}
+                showThumbs={false}
+              >
+                {data.splashImages.map((carImage, index) => (
+                  <div key={index}>
+                    <img
+                      className="offerlist-modal-image"
+                      src={carImage}
+                      alt={`carImage voiture ${index + 1}`}
+                    />
+                  </div>
+                ))}
+              </Carousel>
+            ) : (
+              <img
+                className="offerlist-modal-image"
+                src={randomCar}
+                alt="random car"
+              />
+            )}
+
             <div className="offerlist-modal-toptext">
               <span>{item.headlines.description}</span>
               <span>{item.headlines.shortSubline}</span>

@@ -2,11 +2,9 @@
 import { useForm } from "react-hook-form";
 import { useLocation, useNavigate } from "react-router-dom";
 import { useState } from "react";
-import { getNames } from "country-list";
 import axios from "axios";
 
-import "react-phone-number-input/style.css";
-import PhoneInput from "react-phone-number-input";
+import DataForm from "../../Components/dataForm/DataForm";
 
 import "./personalDetails.css";
 
@@ -18,11 +16,10 @@ const Personaldetails = () => {
   const days = location.state.result.days;
   const selectedOptions = location.state.selectedOptions;
 
-  const [phoneNumber, setPhoneNumber] = useState();
   const [modalOpen, setModalOpen] = useState(false);
   const [uniqueId, setUniqueId] = useState(null);
 
-  //Calculer le prix jours + options + taxes
+  //Function to calc the total price + options + fees
   const calculateTotalPrice = () => {
     let totalPrice = offer.prices.dayPrice.amount * days;
 
@@ -77,8 +74,7 @@ const Personaldetails = () => {
       );
       setUniqueId(response.data.uniqueId);
       setModalOpen(true);
-      // console.log(response.data);
-      navigate("/"); //ne pas partir direct - partir quand on ferme le modal
+      //ne pas partir direct - partir quand on ferme le modal
     } catch (error) {
       console.error(error);
     }
@@ -95,125 +91,7 @@ const Personaldetails = () => {
         <h1>INFORMATIONS PERSONNELLES</h1>
       </div>
       <div>
-        <form onSubmit={handleSubmit(onSubmit)}>
-          <div className="personaldetails-titles">
-            <label htmlFor="gender-male">
-              <input
-                type="radio"
-                id="gender-male"
-                value="M."
-                {...register("gender", { required: true })}
-              />{" "}
-              M.
-            </label>
-            <label htmlFor="gender-female">
-              <input
-                type="radio"
-                id="gender-female"
-                value="Mme."
-                {...register("gender", { required: true })}
-              />{" "}
-              Mme.
-            </label>
-            <span>*</span>
-          </div>
-          <div className="personaldetails-user">
-            <div className="personaldetails-user-left">
-              <input
-                className="personaldetails-inputs"
-                {...register("company", { required: false })}
-                placeholder="Societé"
-                type="string"
-              />
-              <input
-                className="personaldetails-inputs"
-                {...register("firstName", { required: true })}
-                placeholder="Prénom *"
-                type="string"
-              />
-              <input
-                className="personaldetails-inputs"
-                {...register("email", {
-                  required: true,
-                  pattern: {
-                    value: /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i,
-                    message: "Adresse email invalide",
-                  },
-                })}
-                placeholder="Adresse email *"
-                type="email"
-              />
-
-              <input
-                className="personaldetails-inputs"
-                {...register("street", { required: true })}
-                placeholder="Rue *"
-                type="string"
-              />
-              <select
-                {...register("country")}
-                defaultValue="France"
-                className="personaldetails-inputs"
-              >
-                {getNames().map((country, index) => {
-                  return (
-                    <option value={country} key={index}>
-                      {country}
-                    </option>
-                  );
-                })}
-              </select>
-              <span className="personaldetails-birthday-text">
-                DATE DE NAISSANCE
-              </span>
-              <input
-                className="personaldetails-birthday-input"
-                {...register("birthDate", { required: true })}
-                type="date"
-                min="1900-01-01"
-                max="2004-01-01"
-                onChange={(e) =>
-                  setValue("birthDate", e.target.value.toString())
-                }
-              />
-            </div>
-
-            <div className="personaldetails-user-right">
-              <input
-                className="personaldetails-inputs"
-                {...register("lastName", { required: true })}
-                placeholder="Nom de famille *"
-                type="string"
-              />
-              <PhoneInput
-                className="personaldetails-inputs personaldetails-phone"
-                style={{
-                  outline: "none",
-                  textDecoration: "none",
-                }}
-                {...register("phoneNumber", { required: true })}
-                placeholder="Numéro de téléphone *"
-                defaultCountry="FR"
-                value={phoneNumber}
-                onChange={setPhoneNumber}
-              />
-              <input
-                className="personaldetails-inputs"
-                {...register("zipCode", { required: true })}
-                placeholder="Code postal *"
-                type="text"
-                minLength={5}
-                maxLength={9}
-              />
-              <input
-                className="personaldetails-inputs"
-                {...register("city", { required: true })}
-                placeholder="Ville *"
-                type="string"
-              />
-            </div>
-          </div>
-        </form>
+        <DataForm onSubmit={onSubmit} />
       </div>
       <div>
         <div className="personaldetails-bottom">
@@ -305,6 +183,7 @@ const Personaldetails = () => {
             <p>Voici la référence de votre dossier:</p>
             <p className="unique-id">{uniqueId}</p>
             <button className="modal-close-button" onClick={closeModal}>
+              {navigate("/")}
               Fermer
             </button>
           </div>

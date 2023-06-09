@@ -153,5 +153,5 @@
   right: 30px;
   cursor: pointer;
   font-size: 30px;
-  color: white;
+  color: white !important;
 }

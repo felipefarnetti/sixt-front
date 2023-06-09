@@ -34,8 +34,9 @@ const ModalOptions = ({
             </div>
             <div className="modal-options-line">
               <span>
-                Durée de location ({days} jours x{" "}
-                {result.offer.prices.dayPrice.amount})
+                Durée de location (
+                {days === 1 ? `${days} jour` : `${days} jours`} x €{" "}
+                {result.offer.prices.dayPrice.amount}))
               </span>
               <span>
                 € {(result.offer.prices.dayPrice.amount * days).toFixed(2)}
