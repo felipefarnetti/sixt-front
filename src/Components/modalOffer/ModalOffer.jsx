@@ -8,14 +8,23 @@ import "./modalOffer.css";
 import randomCar from "../../assets/img/randomphoto.png";
 
 const ModalOffer = ({ item, days, close }) => {
+  const navigation = useNavigate();
   const [data, setData] = useState();
   const [isLoading, setIsLoading] = useState(true);
-  const navigation = useNavigate();
+
+  //Constants to save Total without taxes, calculate extraFees and total with prices
+  const totalPriceNoTax = item.prices.dayPrice.amount * days;
+  const taxes = data?.extraFees.reduce(
+    (sum, fees) => sum + fees.price.amount,
+    0
+  );
+  const totalWithTaxes = (totalPriceNoTax + taxes).toFixed(2);
 
   useEffect(() => {
     fetchData(); //warning  React Hook useEffect has a missing dependency: 'fetchData'. Either include it or remove the dependency array
   }, []);
 
+  //Fetch offerconfig data
   const fetchData = async () => {
     try {
       const response = await axios.post(
@@ -28,6 +37,8 @@ const ModalOffer = ({ item, days, close }) => {
       console.error(error);
     }
   };
+
+  //Handle for submit the selected car, navigate to OfferConfig and send the State needed on the next page
   const handleSubmit = async (event) => {
     event.preventDefault();
     navigation(`/OfferConfig`, {
@@ -38,9 +49,6 @@ const ModalOffer = ({ item, days, close }) => {
       },
     });
   };
-
-  //Ici j'ai le config data alors je pourrais utiliser calculateTotalPrice
-  //mais dans offerlist (cardOffer) ??
 
   return (
     <div className="offerlist-modal">
@@ -119,7 +127,7 @@ const ModalOffer = ({ item, days, close }) => {
         <div className="offerlist-modal-right">
           <div className="offerlist-modal-totalprice">
             <span>TOTAL </span>
-            <span>€ {(item.prices.dayPrice.amount * days).toFixed(2)}</span>
+            <span>€ {totalWithTaxes}</span>
           </div>
           <span className="offerlist-modal-taxes">Taxes incluses</span>
           <div>

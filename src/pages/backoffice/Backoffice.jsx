@@ -16,6 +16,7 @@ const Backoffice = () => {
   );
   const [reservations, setReservations] = useState([]);
   const [selectedReservation, setSelectedReservation] = useState(null);
+  const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
     // Effect to fetch reservations when the connected state changes
@@ -31,6 +32,7 @@ const Backoffice = () => {
         "https://site--six-back--4w9wbptccl4w.code.run/useroffers"
       );
       setReservations(response.data.userOffers);
+      setIsLoading(false);
     } catch (error) {
       console.error(error);
       setErrorMessage("Une erreur s'est produite");
@@ -117,9 +119,11 @@ const Backoffice = () => {
       ) : (
         <div className="backoffice-connected">
           <div>
-            <h1>🔑 Backoffice Connecté 🔑</h1>
+            <h1>🔑 Backoffice Réservations 🔑</h1>
           </div>
-          {reservations.length > 0 ? (
+          {isLoading ? (
+            <p>Chargement...</p>
+          ) : reservations.length > 0 ? (
             <div className="reservations-container">
               <div className="reservations-header">
                 <span>Date de réservation</span>
@@ -164,7 +168,6 @@ const Backoffice = () => {
           ) : (
             <p>Aucune réservation trouvée.</p>
           )}
-
           <button className="backoffice-button" onClick={handleDisconnect}>
             Se Déconnecter
           </button>

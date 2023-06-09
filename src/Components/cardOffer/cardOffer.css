@@ -36,7 +36,8 @@
 }
 .offerlist-cards {
   display: grid;
-  grid-template-columns: repeat(4, 1fr);
+  grid-template-columns: repeat(4, 270px);
+  justify-content: center;
   gap: 20px;
   justify-items: center;
   font-family: "Roboto";
@@ -49,6 +50,7 @@
   font-size: 22px;
   color: #ff5e00;
   background-color: black;
+  white-space: normal;
 }
 .offerlist-cards-title-subline {
   margin-top: 10px;
@@ -56,7 +58,7 @@
   color: white;
 }
 .offerlist-cards-image {
-  width: 230px;
+  width: 220px;
 }
 .offerlist-cards-mileage {
   font-size: 15px;

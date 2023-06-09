@@ -2,24 +2,27 @@
 import { useForm } from "react-hook-form";
 import { useLocation, useNavigate } from "react-router-dom";
 import { useState } from "react";
+import { getNames } from "country-list";
 import axios from "axios";
 
-import DataForm from "../../Components/dataForm/DataForm";
+import "react-phone-number-input/style.css";
+import PhoneInput from "react-phone-number-input";
 
 import "./personalDetails.css";
 
 const Personaldetails = () => {
-  const navigate = useNavigate();
   const location = useLocation();
+  const navigate = useNavigate();
   const config = location.state.result.config;
   const offer = location.state.result.offer;
   const days = location.state.result.days;
   const selectedOptions = location.state.selectedOptions;
 
+  const [phoneNumber, setPhoneNumber] = useState();
   const [modalOpen, setModalOpen] = useState(false);
   const [uniqueId, setUniqueId] = useState(null);
 
-  //Function to calc the total price + options + fees
+  //Calculer le prix jours + options + taxes
   const calculateTotalPrice = () => {
     let totalPrice = offer.prices.dayPrice.amount * days;
 
@@ -41,20 +44,13 @@ const Personaldetails = () => {
     register,
     handleSubmit,
     setValue,
+    reset,
     formState: { isValid },
   } = useForm({ mode: "onChange" });
 
   const onSubmit = async (data) => {
-    const birthDate = data.birthDate.split("-").reverse().join("-");
-    const currentDate = new Date();
-    const year = currentDate.getFullYear();
-    const month = String(currentDate.getMonth() + 1).padStart(2, "0");
-    const day = String(currentDate.getDate()).padStart(2, "0");
-    const reservationDate = `${day}-${month}-${year}`;
-
     const formData = {
       ...data,
-      price: offer.prices.dayPrice.amount,
       totalPrice: calculateTotalPrice(),
       selectedOptions,
       days,
@@ -63,8 +59,6 @@ const Personaldetails = () => {
       carName: offer.headlines.longSubline,
       includedCharges: config.includedCharges,
       extraFees: config.extraFees,
-      reservationDate,
-      birthDate,
     };
     console.log(data);
     try {
@@ -74,7 +68,7 @@ const Personaldetails = () => {
       );
       setUniqueId(response.data.uniqueId);
       setModalOpen(true);
-      //ne pas partir direct - partir quand on ferme le modal
+      console.log(response.data);
     } catch (error) {
       console.error(error);
     }
@@ -83,6 +77,16 @@ const Personaldetails = () => {
   const closeModal = () => {
     setModalOpen(false);
     setUniqueId(null);
+    reset();
+    navigate("/");
+  };
+
+  const handleReservationClick = () => {
+    if (isValid) {
+      handleSubmit(onSubmit)();
+    } else {
+      alert("Veuillez remplir tous les champs obligatoires.");
+    }
   };
 
   return (
@@ -91,7 +95,129 @@ const Personaldetails = () => {
         <h1>INFORMATIONS PERSONNELLES</h1>
       </div>
       <div>
-        <DataForm onSubmit={onSubmit} />
+        <form onSubmit={handleSubmit(onSubmit)}>
+          <div className="personaldetails-titles">
+            <label htmlFor="gender-male">
+              <input
+                type="radio"
+                id="gender-male"
+                value="M."
+                {...register("gender", { required: true })}
+              />{" "}
+              M.
+            </label>
+            <label htmlFor="gender-female">
+              <input
+                type="radio"
+                id="gender-female"
+                value="Mme."
+                {...register("gender", { required: true })}
+              />{" "}
+              Mme.
+            </label>
+            <span style={{ fontSize: "10px" }}>
+              Tous les champs marqués d'un * sont obligatoires
+            </span>
+          </div>
+          <div className="personaldetails-user">
+            <div className="personaldetails-user-left">
+              <input
+                className="personaldetails-inputs"
+                {...register("company", { required: false })}
+                placeholder="Societé"
+                type="string"
+                tabIndex={1}
+              />
+              <input
+                className="personaldetails-inputs"
+                {...register("firstName", { required: true })}
+                placeholder="Prénom *"
+                type="string"
+                tabIndex={2}
+              />
+              <input
+                className="personaldetails-inputs"
+                {...register("email", { required: true })}
+                placeholder="Adresse email *"
+                type="email"
+                tabIndex={4}
+              />
+              <input
+                className="personaldetails-inputs"
+                {...register("street", { required: true })}
+                placeholder="Rue *"
+                type="string"
+                tabIndex={7}
+              />
+              <select
+                {...register("country")}
+                defaultValue="France"
+                className="personaldetails-inputs"
+              >
+                {getNames().map((country, index) => {
+                  return (
+                    <option value={country} key={index}>
+                      {country}
+                    </option>
+                  );
+                })}
+              </select>
+              <span className="personaldetails-birthday-text">
+                DATE DE NAISSANCE
+              </span>
+              <input
+                className="personaldetails-birthday-input"
+                {...register("birthDate", { required: true })}
+                type="date"
+                min="1900-01-01"
+                max="2004-01-01"
+                onChange={(e) =>
+                  setValue("birthDate", e.target.value.toString())
+                }
+              />
+            </div>
+
+            <div className="personaldetails-user-right">
+              <input
+                className="personaldetails-inputs"
+                {...register("lastName", { required: true })}
+                placeholder="Nom de famille *"
+                type="string"
+                tabIndex={3}
+              />
+              <PhoneInput
+                className="personaldetails-inputs personaldetails-phone"
+                style={{
+                  outline: "none",
+
+                  textDecoration: "none",
+                }}
+                {...register("phoneNumber", { required: true })}
+                placeholder="Numéro de téléphone *"
+                defaultCountry="FR"
+                value={phoneNumber}
+                onChange={setPhoneNumber}
+                tabIndex={6}
+              />
+              <input
+                className="personaldetails-inputs"
+                {...register("zipCode", { required: true })}
+                placeholder="Code postal *"
+                type="text"
+                minLength={5}
+                maxLength={9}
+                tabIndex={8}
+              />
+              <input
+                className="personaldetails-inputs"
+                {...register("city", { required: true })}
+                placeholder="Ville *"
+                type="string"
+                tabIndex={9}
+              />
+            </div>
+          </div>
+        </form>
       </div>
       <div>
         <div className="personaldetails-bottom">
@@ -183,7 +309,6 @@ const Personaldetails = () => {
             <p>Voici la référence de votre dossier:</p>
             <p className="unique-id">{uniqueId}</p>
             <button className="modal-close-button" onClick={closeModal}>
-              {navigate("/")}
               Fermer
             </button>
           </div>

@@ -40,7 +40,7 @@
   width: 1200px;
   margin: auto;
   font-family: "Roboto", sans-serif;
-  border: black solid 1px;
+  /* border: black solid 1px; */
   background-color: #ff5e00;
 }
 .offerlist-filter {
@@ -56,44 +56,4 @@
 .offerlist-filter-select {
   width: 400px;
   margin-left: 30px;
-}
-
-.offerlist-cards {
-  display: grid;
-  grid-template-columns: repeat(4, 1fr);
-  gap: 20px;
-  justify-items: center;
-  font-family: "Roboto";
-}
-.offerlist-card {
-  margin-bottom: 50px;
-}
-
-.offerlist-cards-title {
-  font-size: 22px;
-  color: #ff5e00;
-  background-color: black;
-}
-.offerlist-cards-title-subline {
-  margin-top: 10px;
-  font-size: 14px;
-  color: white;
-}
-.offerlist-cards-image {
-  width: 230px;
-}
-.offerlist-cards-mileage {
-  font-size: 15px;
-  font-family: Roboto;
-  margin-left: 10px;
-  margin-bottom: 10px;
-}
-
-.offerlist-cards-price {
-  color: white;
-}
-
-.offerlist-cards-totalprice {
-  margin-top: 10px;
-  font-size: 14px;
 }
