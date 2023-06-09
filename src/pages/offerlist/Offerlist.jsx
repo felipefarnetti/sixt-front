@@ -29,7 +29,6 @@ const Offerlist = () => {
   const pickupDate = queryParameters.get("pickupdate");
   const returnDate = queryParameters.get("returndate");
   const [days, setDays] = useState();
-
   useEffect(() => {
     fetchData(pickupStation, pickupDate, returnDate);
   }, []);
@@ -66,7 +65,6 @@ const Offerlist = () => {
       }));
     }
   };
-
   const onChange = (pickupStation, pickupDate, returnDate) => {
     window.history.replaceState(
       {},

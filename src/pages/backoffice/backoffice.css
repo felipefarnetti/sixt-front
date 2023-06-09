@@ -97,7 +97,6 @@
   flex-direction: column;
   width: 1000px;
   align-items: center;
-  justify-content: center;
 }
 
 .reservations-header {
@@ -127,7 +126,6 @@
   flex-direction: row;
   align-items: center;
   justify-content: space-between;
-  margin-left: 40px;
   width: 100%;
   padding: 10px 20px;
   border-bottom: 1px solid #ccc;
@@ -136,16 +134,16 @@
   font-size: 16px;
 }
 
-.delete-button {
+.reservation-delete-button {
+  border-radius: 4px;
+  padding: 6px 12px;
+  background-color: #ff5f00;
+  border: none;
+  cursor: pointer;
   font-family: "Roboto", sans-serif;
   font-size: 14px;
   font-weight: bold;
   color: white;
-  background-color: #ff5f00;
-  border: none;
-  border-radius: 4px;
-  padding: 6px 12px;
-  cursor: pointer;
 }
 
 .backoffice-error {

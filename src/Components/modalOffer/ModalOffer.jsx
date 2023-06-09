@@ -9,6 +9,7 @@ import randomCar from "../../assets/img/randomphoto.png";
 
 const ModalOffer = ({ item, days, close }) => {
   const [data, setData] = useState();
+  const [isLoading, setIsLoading] = useState(true);
   const navigation = useNavigate();
 
   useEffect(() => {
@@ -22,6 +23,7 @@ const ModalOffer = ({ item, days, close }) => {
         { offerId: item.id }
       );
       setData(response.data);
+      setIsLoading(false);
     } catch (error) {
       console.error(error);
     }
@@ -37,35 +39,40 @@ const ModalOffer = ({ item, days, close }) => {
     });
   };
 
+  //Ici j'ai le config data alors je pourrais utiliser calculateTotalPrice
+  //mais dans offerlist (cardOffer) ??
+
   return (
     <div className="offerlist-modal">
       <div className="offerlist-modal-content">
         <div className="offerlist-modal-left">
           <div className="offerlist-modal-image">
-            {data?.splashImages && data.splashImages.length > 0 ? (
-              <Carousel
-                autoPlay={true}
-                interval={3000}
-                infiniteLoop={true}
-                showThumbs={false}
-              >
-                {data.splashImages.map((carImage, index) => (
-                  <div key={index}>
-                    <img
-                      className="offerlist-modal-image"
-                      src={carImage}
-                      alt={`carImage voiture ${index + 1}`}
-                    />
-                  </div>
-                ))}
-              </Carousel>
-            ) : (
-              <img
-                className="offerlist-modal-image"
-                src={randomCar}
-                alt="random car"
-              />
-            )}
+            {!isLoading ? (
+              data?.splashImages && data.splashImages.length > 0 ? (
+                <Carousel
+                  autoPlay={true}
+                  interval={3000}
+                  infiniteLoop={true}
+                  showThumbs={false}
+                >
+                  {data.splashImages.map((carImage, index) => (
+                    <div key={index}>
+                      <img
+                        className="offerlist-modal-image"
+                        src={carImage}
+                        alt={`carImage voiture ${index + 1}`}
+                      />
+                    </div>
+                  ))}
+                </Carousel>
+              ) : (
+                <img
+                  className="offerlist-modal-image"
+                  src={randomCar}
+                  alt="random car"
+                />
+              )
+            ) : null}
 
             <div className="offerlist-modal-toptext">
               <span>{item.headlines.description}</span>

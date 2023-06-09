@@ -143,7 +143,7 @@ const Backoffice = () => {
                     <span>{reservation.totalPrice}</span>
                     <span>
                       <button
-                        className="delete-button"
+                        className="reservation-delete-button"
                         onClick={() =>
                           handleDeleteReservation(reservation.uniqueId)
                         }
