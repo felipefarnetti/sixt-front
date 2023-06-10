@@ -68,3 +68,9 @@
   font-size: 23px;
   margin-right: 10px;
 }
+
+/* .header-step {
+} */
+.header-step.is-active {
+  color: orange;
+}

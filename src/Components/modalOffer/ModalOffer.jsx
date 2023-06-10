@@ -41,7 +41,7 @@ const ModalOffer = ({ item, days, close }) => {
   //Handle for submit the selected car, navigate to OfferConfig and send the State needed on the next page
   const handleSubmit = async (event) => {
     event.preventDefault();
-    navigation(`/OfferConfig`, {
+    navigation(`/offerconfig`, {
       state: {
         config: data,
         offer: item,

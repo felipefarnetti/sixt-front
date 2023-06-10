@@ -9,6 +9,7 @@ import "react-phone-number-input/style.css";
 import PhoneInput from "react-phone-number-input";
 
 import "./personalDetails.css";
+import dayjs from "dayjs";
 
 const Personaldetails = () => {
   const location = useLocation();
@@ -49,11 +50,13 @@ const Personaldetails = () => {
   } = useForm({ mode: "onChange" });
 
   const onSubmit = async (data) => {
+    const formattedDate = dayjs().format("DD-MM-YYYY");
     const formData = {
       ...data,
       totalPrice: calculateTotalPrice(),
       selectedOptions,
       days,
+      reservationDate: formattedDate,
       carPhoto: offer.images.small,
       carPhotos: config.splashImages,
       carName: offer.headlines.longSubline,
@@ -62,25 +65,27 @@ const Personaldetails = () => {
     };
     console.log(data);
     try {
+      //Post form data
       const response = await axios.post(
         "https://site--six-back--4w9wbptccl4w.code.run/useroffer",
         formData
       );
       setUniqueId(response.data.uniqueId);
-      setModalOpen(true);
+      setModalOpen(true); // Display confirmation modal
       console.log(response.data);
     } catch (error) {
       console.error(error);
     }
   };
-
+  // After modal closing goes to Home page
   const closeModal = () => {
     setModalOpen(false);
     setUniqueId(null);
     reset();
-    navigate("/");
+    navigate("/", { replace: true, state: null });
   };
 
+  //Submit form if all fields are filled
   const handleReservationClick = () => {
     if (isValid) {
       handleSubmit(onSubmit)();

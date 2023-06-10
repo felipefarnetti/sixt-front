@@ -1,8 +1,7 @@
-import "./App.css";
-//Import des packages
+//Packages import
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 
-//import des composants
+//Components import
 import Header from "./Components/header/Header";
 import Footer from "./Components/footer/Footer";
 //Import des pages
@@ -12,6 +11,9 @@ import Offerconfig from "./pages/offerconfig/Offerconfig";
 import Personaldetails from "./pages/personaldetails/Personaldetails/";
 import Backoffice from "./pages/backoffice/Backoffice";
 
+import "./App.css";
+
+//Pages routes
 function App() {
   return (
     <Router>

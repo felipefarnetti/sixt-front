@@ -1,6 +1,5 @@
-//packages
+//packages import
 import { useEffect, useState } from "react";
-// import axios from "axios";
 import { useLocation } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
 //pages

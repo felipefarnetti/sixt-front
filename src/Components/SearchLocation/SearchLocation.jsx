@@ -67,7 +67,7 @@ const SearchLocation = ({ defaultValues, onChange }) => {
   const handleSubmit = async (event) => {
     event.preventDefault();
     navigation(
-      `/Offerlist?station=${selectedPickupStation.value}&location=${
+      `/offerlist?station=${selectedPickupStation.value}&location=${
         selectedPickupStation.label
       }&pickupdate=${pickupDate.toISOString()}&returndate=${returnDate.toISOString()}`
     );
@@ -98,6 +98,7 @@ const SearchLocation = ({ defaultValues, onChange }) => {
             <LocalizationProvider dateAdapter={AdapterDayjs}>
               <DateTimePicker
                 onChange={(value) => {
+                  console.log(value);
                   setPickupDate(value);
                 }}
                 minDate={dayjs().startOf("day")}
@@ -107,6 +108,7 @@ const SearchLocation = ({ defaultValues, onChange }) => {
                 minutesStep={30}
                 skipDisabled={true}
                 format="DD/MM/YYYY HH:mm"
+                defaultValue={dayjs().set("hour", 8).set("minute", 0)}
                 className="home-bloc-haut-form-date"
                 {...(defaultValues?.pickupDate && {
                   defaultValue: dayjs(defaultValues.pickupDate),
@@ -123,6 +125,7 @@ const SearchLocation = ({ defaultValues, onChange }) => {
                 minutesStep={30}
                 skipDisabled={true}
                 format="DD/MM/YYYY HH:mm"
+                defaultValue={dayjs().set("hour", 8).set("minute", 0)}
                 className="home-bloc-haut-form-date"
                 {...(defaultValues?.returnDate && {
                   defaultValue: dayjs(defaultValues.returnDate),

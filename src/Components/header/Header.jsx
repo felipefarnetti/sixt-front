@@ -1,12 +1,38 @@
 //import des packages
-import { useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 
 //import style et logo
 import "./header.css";
 import logo from "../../assets/img/sixt-logo.png";
 
+const steps = [
+  {
+    pathname: "/offerlist",
+    step: 1,
+    title: "Sélection des véhicules",
+  },
+  {
+    pathname: "/offerconfig",
+    step: 2,
+    title: "Protection et options",
+  },
+  {
+    pathname: "/personaldetails",
+    step: 3,
+    title: "Conducteur",
+  },
+];
+
 const Header = () => {
   const navigate = useNavigate();
+  const location = useLocation();
+
+  const getCurrentStep = () => {
+    return steps.find((step) => step.pathname === location.pathname);
+  };
+
+  const currentStep = getCurrentStep();
+  console.log(currentStep);
   return (
     <div className="header-container">
       <img
@@ -17,21 +43,44 @@ const Header = () => {
           navigate("/");
         }}
       />
-      <ul className="header-menu">
-        <li
-          className="header-item header-item-rent"
-          onClick={() => {
-            navigate("/");
-          }}
-        >
-          RENT
-        </li>
-        <li className="header-item">SHARE</li>
-        <li className="header-item">RIDE</li>
-        <li className="header-item">
-          SIXT+<span className="header-item-smaller">ABONNEMENT AUTO</span>
-        </li>
-      </ul>
+      {currentStep ? (
+        <ul>
+          {steps.map((step, index) => {
+            const isActive = step.pathname === currentStep.pathname;
+            const isCompleted = currentStep.step > index + 1;
+            return (
+              <li
+                className={`header-step ${
+                  isActive || isCompleted ? "is-active" : ""
+                } `}
+                key={index}
+              >
+                {!isCompleted ? step.step : "X"}
+                {step.title}
+                {isActive && "oui"}
+                {isCompleted && "completed"}
+              </li>
+            );
+          })}
+        </ul>
+      ) : (
+        <ul className="header-menu">
+          <li
+            className="header-item header-item-rent"
+            onClick={() => {
+              navigate("/");
+            }}
+          >
+            RENT
+          </li>
+          <li className="header-item">SHARE</li>
+          <li className="header-item">RIDE</li>
+          <li className="header-item">
+            SIXT+<span className="header-item-smaller">ABONNEMENT AUTO</span>
+          </li>
+        </ul>
+      )}
+
       <div className="header-backoffice">
         <span className="ico-planet header-icon-size"></span>
         <span

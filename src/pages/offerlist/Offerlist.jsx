@@ -1,13 +1,15 @@
-//packages
+//packages import
 import Select from "react-select";
 import { useEffect, useState } from "react";
 import axios from "axios";
 import { useLocation } from "react-router-dom";
-//components
+//components import
 import SearchLocation from "../../Components/SearchLocation/SearchLocation";
 import CardOffer from "../../Components/cardOffer/CardOffer";
+
 import "./offerlist.css";
 
+//Car types filter options
 const carOptions = [
   { label: "CONVERTIBLE", value: "Cabriolet" },
   { label: "BERLINE", value: "Berline" },
@@ -29,10 +31,13 @@ const Offerlist = () => {
   const pickupDate = queryParameters.get("pickupdate");
   const returnDate = queryParameters.get("returndate");
   const [days, setDays] = useState();
+
+  //UseEffect to render when fetchdata is called
   useEffect(() => {
     fetchData(pickupStation, pickupDate, returnDate);
   }, []);
 
+  // Fetch data from the API
   const fetchData = async (pickupStation, pickupDate, returnDate) => {
     try {
       setResult((prevstate) => ({
@@ -65,15 +70,16 @@ const Offerlist = () => {
       }));
     }
   };
+  //On changing on of the arguments it reaplaces the web adress on browser
   const onChange = (pickupStation, pickupDate, returnDate) => {
     window.history.replaceState(
       {},
       "",
-      `/Offerlist?station=${pickupStation.value}&location=${pickupStation.label}&pickupdate=${pickupDate}&returndate=${returnDate}`
+      `/offerlist?station=${pickupStation.value}&location=${pickupStation.label}&pickupdate=${pickupDate}&returndate=${returnDate}`
     );
     fetchData(pickupStation.value, pickupDate, returnDate);
   };
-
+  //Filter car types function
   const handleFilters = (filters) => {
     const filterValues = filters.map((filter) => filter.value);
     console.log(filterValues);
@@ -81,7 +87,7 @@ const Offerlist = () => {
       ...prevstate,
       isLoading: true,
     }));
-
+    //Timeout to  ????
     setTimeout(() => {
       if (filterValues.length === 0) {
         setResult((prevstate) => ({
@@ -101,7 +107,7 @@ const Offerlist = () => {
       }));
     }, 500);
   };
-
+  //calculate the number of days based on 24H
   const calculateDays = (pickupDate, returnDate) => {
     const date1 = new Date(pickupDate);
     const date2 = new Date(returnDate);
@@ -113,6 +119,7 @@ const Offerlist = () => {
   return (
     <div className="offerlist-container">
       <>
+        {/* Search component */}
         <SearchLocation
           defaultValues={{
             pickupLocation,
@@ -127,6 +134,7 @@ const Offerlist = () => {
             {result.data.length}
             <span style={{ fontSize: "14px" }}> OFFRES</span>
           </span>
+          {/* Filter car models */}
           <Select
             isMulti
             name="options"
@@ -145,6 +153,9 @@ const Offerlist = () => {
         <div>
           <div className="offerlist-cards">
             {result.data.map((item) => {
+              {
+                /* Component CardOffer to map the avaiblables cars in selected agency */
+              }
               return <CardOffer key={item.id} item={item} days={days} />;
             })}
           </div>
