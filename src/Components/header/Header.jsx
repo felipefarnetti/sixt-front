@@ -32,7 +32,6 @@ const Header = () => {
   };
 
   const currentStep = getCurrentStep();
-  console.log(currentStep);
   return (
     <div className="header-container">
       <img
@@ -44,7 +43,7 @@ const Header = () => {
         }}
       />
       {currentStep ? (
-        <ul>
+        <ul className="header-step">
           {steps.map((step, index) => {
             const isActive = step.pathname === currentStep.pathname;
             const isCompleted = currentStep.step > index + 1;
@@ -52,13 +51,12 @@ const Header = () => {
               <li
                 className={`header-step ${
                   isActive || isCompleted ? "is-active" : ""
-                } `}
+                }`}
                 key={index}
               >
-                {!isCompleted ? step.step : "X"}
-                {step.title}
-                {isActive && "oui"}
-                {isCompleted && "completed"}
+                {isCompleted ? "" : step.step} {step.title}
+                {isActive && ""}
+                {isCompleted && ""}
               </li>
             );
           })}

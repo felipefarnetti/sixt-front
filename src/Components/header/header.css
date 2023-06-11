@@ -69,8 +69,13 @@
   margin-right: 10px;
 }
 
-/* .header-step {
-} */
+.header-step {
+  display: flex;
+  flex-direction: row;
+  gap: 30px;
+  font-family: "Roboto Condensed";
+  font-weight: bold;
+}
 .header-step.is-active {
   color: orange;
 }
