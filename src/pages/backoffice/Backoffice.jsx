@@ -134,29 +134,32 @@ const Backoffice = () => {
                 <span>Actions</span>
               </div>
               <div className="reservations-body">
-                {reservations.map((reservation) => (
-                  <div
-                    key={reservation.uniqueId}
-                    className="reservation-row"
-                    onClick={() => handleOpenModal(reservation)}
-                  >
-                    <span>{reservation.reservationDate}</span>
-                    <span>{reservation.uniqueId}</span>
-                    <span>{`${reservation.firstName} ${reservation.lastName}`}</span>
-                    <span>{reservation.days}</span>
-                    <span>{reservation.totalPrice}</span>
-                    <span>
-                      <button
-                        className="reservation-delete-button"
-                        onClick={() =>
-                          handleDeleteReservation(reservation.uniqueId)
-                        }
-                      >
-                        Supprimer
-                      </button>
-                    </span>
-                  </div>
-                ))}
+                {reservations
+                  .slice()
+                  .reverse()
+                  .map((reservation) => (
+                    <div
+                      key={reservation.uniqueId}
+                      className="reservation-row"
+                      onClick={() => handleOpenModal(reservation)}
+                    >
+                      <span>{reservation.reservationDate}</span>
+                      <span>{reservation.uniqueId}</span>
+                      <span>{`${reservation.firstName} ${reservation.lastName}`}</span>
+                      <span>{reservation.days}</span>
+                      <span>{reservation.totalPrice}</span>
+                      <span>
+                        <button
+                          className="reservation-delete-button"
+                          onClick={() =>
+                            handleDeleteReservation(reservation.uniqueId)
+                          }
+                        >
+                          Supprimer
+                        </button>
+                      </span>
+                    </div>
+                  ))}
               </div>
               {selectedReservation && (
                 <BackOfficeModal
